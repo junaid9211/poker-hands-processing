@@ -110,5 +110,31 @@ class Category:
         return straight
 
 
+    @staticmethod
+    def is_HaveOpenEndedStraightDraw(board: Board, hand: Hand) -> bool:
+        # I don't want to copy and paste the code from above, what other option do I have?
+        all_cards = board.cards + hand.cards
 
+        # value of A is 1 if there is 2 in cards else it is 14
+        value_of_ace = 1 if '2' in all_cards else 14
+        numerical_value = {'T': 10, 'J': 11, 'Q': 12, 'K': 13, 'A': value_of_ace}
+
+        straight = True
+        card_nums = [int(card) if card.isdigit() else numerical_value[card] for card in all_cards]
+
+        card_nums.sort()
+        # it forgives the first error
+        # TODO complete this method
+
+
+    @staticmethod
+    def is_HaveOverPair(board: Board, hand: Hand) -> bool:
+        pass
+        # TODO HaveOverPair complete this method
+
+
+    @staticmethod
+    def is_HaveFullHouse(board: Board, hand: Hand) -> bool:
+        pass
+        # TODO HaveFullHouse complete this method
 
