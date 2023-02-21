@@ -3,6 +3,7 @@ inputs/
 other*inputs/
 outputs/
 
+testing.py
 
 __pycache__/
 *.py[cod]

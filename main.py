@@ -66,6 +66,7 @@ def get_key(nums):
 
 
 input_files = os.listdir('inputs')
+
 if not os.path.exists('outputs'):
     os.mkdir('outputs')
 
@@ -117,10 +118,10 @@ for input_file_name in input_files:
                         writing = True
 
                 hands = defaultdict(lambda: [])
-                print(f'{rstring}:player {player_num}', end='| ')
+                # print(f'{rstring}:player {player_num}', end='| ')
                 if writing:
                     switch_player()
-                print(f'player {player_num}')
+                # print(f'player {player_num}')
 
-    print('Done ...')
+    # print('Done ...')
     output_file.close()
