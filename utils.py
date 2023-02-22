@@ -142,7 +142,7 @@ class Category:
     @staticmethod
     def is_HaveOverPair(board: Board, hand: Hand) -> bool:
         board_max_value = board.cards_info[0]['value']
-        return board_max_value > hand.values[0] and hand.values[1]
+        return board_max_value > hand.values[0] and board_max_value > hand.values[1]
 
 
     @staticmethod
