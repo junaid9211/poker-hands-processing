@@ -118,31 +118,33 @@ class Category:
         unique_suits = set(all_suits)
         return len(unique_suits) == 1
 
+
+
     @staticmethod
     def is_HaveStraight(board: Board, hand: Hand) -> bool:
-        all_cards = board.cards + hand.cards
+        all_values = board.values + hand.values
 
-        # value of A is 1 if there is 2 in cards else it is 14
-        value_of_ace = 1 if '2' in all_cards else 14
-        numerical_value = {'T': 10, 'J': 11, 'Q': 12, 'K': 13, 'A': value_of_ace}
+        if 2 in all_values and 14 in all_values:
+            ace_index = all_values.index(14)
+            all_values[ace_index] = 1
+
+
+        all_values.sort()
 
         straight = True
-        card_nums = [int(card) if card.isdigit() else numerical_value[card] for card in all_cards]
-
-        card_nums.sort()
-
-        # assuming my code is correct, what if A is supposed to be 1?
-        for i in range(len(card_nums) - 1):
-            if card_nums[i] + 1 != card_nums[i + 1]:
+        for i in range(len(all_values) - 1):
+            if all_values[i] + 1 != all_values[i + 1]:
                 straight = False
                 break
 
         return straight
 
+
+
     @staticmethod
     def is_HaveOverPair(board: Board, hand: Hand) -> bool:
         board_max_value = board.cards_info[0]['value']
-        return board_max_value > hand.values[0] and board_max_value > hand.values[1]
+        return board_max_value < hand.values[0] and board_max_value < hand.values[1]
 
 
     @staticmethod
@@ -157,3 +159,27 @@ class Category:
         else:
             return False
 
+
+    @staticmethod
+    def is_flush12(board: Board, hand: Hand) -> bool:
+        is_flush = Category.is_HaveFlush(board, hand)
+        return is_flush and (hand.values[0] > 12)
+
+
+    @staticmethod
+    def is_flushBetween9and12(board: Board, hand: Hand) -> bool:
+        is_flush = Category.is_HaveFlush(board, hand)
+        return is_flush and (9 <= hand.values[0] <= 12)
+
+
+    @staticmethod
+    def is_flushUnder8(board: Board, hand: Hand) -> bool:
+        is_flush = Category.is_HaveFlush(board, hand)
+        return is_flush and (hand.values[0] <= 8)
+
+
+    @staticmethod
+    def is_HaveStraightFlush(board: Board, hand: Hand) -> bool:
+        is_straight = Category.is_HaveStraight(board, hand)
+        is_flush = Category.is_HaveFlush(board, hand)
+        return is_straight and is_flush
