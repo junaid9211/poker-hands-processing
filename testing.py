@@ -30,8 +30,36 @@ cases = [
          {'board': 'Jd9sQh', 'hands': ['8hTc'], 'expected':[True], 'func': Category.is_HaveStraight},
          {'board': 'TsAhKd', 'hands': ['JhQd'], 'expected':[True], 'func': Category.is_HaveStraight},
 
-         {'board': 'AcKd8c', 'hands': ['6s7d', '2c5d'], 'expected':[True, True], 'func': Category.is_HaveOverPair},
-         {'board': '5c5d2c', 'hands': ['2s2d', '5h2d'], 'expected':[True, True], 'func': Category.is_HaveFullHouse}
+
+            # I modified this. 
+            #HaveOverPair = When the user has a pair in hand, for example QsQd on board of JsTh3c. The QQ is greater in value than the highest card on the board (J)
+         {'board': 'QcKd8c', 'hands': ['AsAd', 'JcJd'], 'expected':[True, False], 'func': Category.is_HaveOverPair},
+
+
+         {'board': '5c5d2c', 'hands': ['2s2d', '5h2d'], 'expected':[True, True], 'func': Category.is_HaveFullHouse},
+
+
+        ############## Can we please REMOVE "HaveFlush, and split it into three categories please? I outlined the expected results below. 
+        # Basically I want the value of my flush to be factored into 3 categories.
+        # Flush > value of 12 EX: Hand Kc2c Board 3c4c5c. K = value of 13 so it is a value of 13 flush. If the board is KcQc2c and we have 5c4c, we take the value of flush from our hand(54). 
+        # So this is a 5 flush.
+        # Flush > 12 = f$flush_12
+        # Flush 9 to 12 = f$flushbetwine9and12
+        # flush <= 8 = f$flushunder8
+         {'board': '4c5c2c', 'hands': ['Ac8c', 'Kc7c', 'QcJc'], 'expected': [True, True, False],
+          'func': Category.is_flush12},
+
+         {'board': '4c5c2c', 'hands': ['Ac8c', 'Kc7c', 'QcJc', '9c8c'], 'expected': [False, False, True, True],
+          'func': Category.is_flushBetween9and12},
+
+         {'board': '4c5c2c', 'hands': ['Ac8c', 'Kc7c', 'QcJc', '9c8c', '8c7c', '2c3c'],
+          'expected':[False, False, False, False, True, True], 'func': Category.is_flushUnder8}
+
+
+        #### More Hand Categories.
+        # HaveStraightFlush
+        # HaveStraightFlush = When either f$flush_12 or f$flushbetwine9and12 or f$flushunder8 is true and also HaveStraight is true
+        
 
          ]
 

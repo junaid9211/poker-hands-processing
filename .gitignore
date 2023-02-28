@@ -2,8 +2,8 @@
 inputs/
 other*inputs/
 outputs/
-
-testing.py
+info.txt
+temp.py
 
 __pycache__/
 *.py[cod]
