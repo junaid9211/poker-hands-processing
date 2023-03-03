@@ -1,41 +1,29 @@
-from collections import defaultdict
-import re
 from utils import Board, Hand, Output
-from processing import (get_data_lines, get_filename,
+from variables import preflop, COLUMN_NAMES
+from processing import (get_data_lines, save_output, get_filename,
                         get_key, get_rstring, get_hand_str_column_nums,
                         get_pattern, is_hand_line, get_category)
 
 
 
-def switch_player():
-    global player_num
 
-    # if player_num == 0:
-    #     player_num = 1
-
-    if player_num == 1:
-        player_num = 2
-
-    elif player_num == 2:
-        player_num = 1
-
-
-
-player_num = 1
-preflop = 'preflop'
-rstring = ''
 
 # TODO 1: [x]  Open the file and get list of lines
-PATH = 'inputs/example-1.txt'
-input_data_lines = get_data_lines(PATH)
+INPUT_PATH = 'other inputs/2s2h2d.cfr.txt'
+OUTPUT_PATH = 'outputs'
+
+player_num = 1
+rstring = ''
+
+input_data_lines = get_data_lines(INPUT_PATH)
 output_list = []
 file_name = get_filename(input_data_lines)
 board = Board(file_name)
 
 # TODO 2: [x] create hands_info dict to keep track of all hands and categories
-KEY_NAMES = ['Bet', 'Check', 'Raise', 'Call', 'Fold']
+
 hands_info = {
-    key: {'hands': [], 'categories': set(), 'empty': True} for key in KEY_NAMES
+    key: {'hands': [], 'categories': set(), 'empty': True} for key in COLUMN_NAMES
 }
 
 # TODO 3: [x] loop through all lines of input data
@@ -60,34 +48,33 @@ for i in range(len(input_data_lines)):
             hands_info[column_name]['hands'].append('hand$' + hand_str)
 
 
-    # TODO 5: need to output data
+    # TODO 6: [x] need to output data
     if i + 1 < len(input_data_lines):
 
         # if next line is rstring
         if get_rstring(input_data_lines[i + 1]):
-            # create an output object ?
-            # what if there was nothing above?
+            # check if there was some content after rstring line
             contains_output = False
-            for key in KEY_NAMES:
+            for key in COLUMN_NAMES:
                 if not hands_info[key]['empty']:
                     contains_output = True
 
+            # TODO 7: [x] create an output object and append it in the list of outputs
             if contains_output:
                 output = Output(player_num, preflop, get_pattern(rstring), file_name, hands_info)
                 output_list.append(output)
-                switch_player()
 
+                # switch player
+                if player_num == 1:
+                    player_num = 2
+
+                elif player_num == 2:
+                    player_num = 1
 
             hands_info = {
-                key: {'hands': [], 'categories': set(), 'empty': True} for key in KEY_NAMES
+                key: {'hands': [], 'categories': set(), 'empty': True} for key in COLUMN_NAMES
             }
 
 
-
-# TODO 6: now I need to save the output in a file
-with open('output.txt', mode='w') as f:
-    for output in output_list:
-        output_str = output.get_output()
-        f.write(output_str
-
-                )
+# TODO 8: [x] now finally I need to save the output in a file
+save_output('output2.txt', output_list)

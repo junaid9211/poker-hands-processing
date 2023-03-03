@@ -1,9 +1,5 @@
 import re
-
-NUMERICAL_VALUE = {'2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9, 'T': 10, 'J': 11, 'Q': 12,
-                   'K': 13, 'A': 14}
-
-KEY_NAMES = ['Bet', 'Check', 'Raise', 'Call', 'Fold']
+from variables import NUMERICAL_VALUE, COLUMN_NAMES
 
 
 class Board:
@@ -72,7 +68,7 @@ class Output:
     def get_output(self):
         output_str = ''
 
-        for key in KEY_NAMES:
+        for key in COLUMN_NAMES:
             if not self.hands_info[key]['empty']:
                 categories_and_hands = list(self.hands_info[key]['categories']) + self.hands_info[key]['hands']
                 categories_and_hands_str = ' OR '.join(categories_and_hands)
@@ -201,26 +197,4 @@ class Category:
         return is_straight and is_flush
 
 
-# a list of dictionaries to store all the category functions and their corresponding string value to output
-# this will make my life easier to loop through all the category checks 🙂
-categories = [{'category_func': Category.is_HaveStraightFlush, 'str': 'HaveStraightFlush'},
-              {'category_func': Category.is_HaveQuads, 'str': 'HaveQuads'},
-              {'category_func': Category.is_HaveFullHouse, 'str': 'HaveFullHouse'},
-              {'category_func': Category.is_flush12, 'str': 'f$flush_12'},
-              {'category_func': Category.is_flushBetween9and12, 'str': 'f$flushbetwine9and12'},
-              {'category_func': Category.is_flushUnder8, 'str': 'f$flushunder8'},
 
-              {'category_func': Category.is_HaveStraight, 'str': 'HaveStraight'},
-              {'category_func': Category.is_HaveTopSet, 'str': 'HaveTopSet'},
-              {'category_func': Category.is_HaveSet, 'str': 'HaveSet'},
-              {'category_func': Category.is_HaveTrips, 'str': 'HaveTrips'},
-
-              {'category_func': Category.is_HaveTopTwoPair, 'str': 'HaveTopTwoPair'},
-              {'category_func': Category.is_HaveTwoPair, 'str': 'HaveTwoPair'},
-              {'category_func': Category.is_HaveBottomTwoPair, 'str': 'HaveBottomTwoPair'},
-
-              {'category_func': Category.is_HaveTopPair, 'str': 'HaveTopPair'},
-              {'category_func': Category.is_HaveSecondTopPair, 'str': 'HaveSecondTopPair'},
-              {'category_func': Category.is_HaveThirdTopPair, 'str': 'HaveBottomPair'},
-              {'category_func': Category.is_HaveOverPair, 'str': 'HaveOverPair'},
-              ]
